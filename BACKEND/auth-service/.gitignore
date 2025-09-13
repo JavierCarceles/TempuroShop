@@ -1,0 +1,44 @@
+# Compilados y paquetes
+/target/
+/build/
+/src/test/
+/src/main/resources/
+*.class
+*.jar
+*.war
+*.ear
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# Ignorar builds dentro de src (pero mantener código fuente)
+/!**/src/main/**/target/
+/!**/src/test/**/target/
+
+# IDEs y editores
+# STS
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# VS Code
+.vscode/
