@@ -35,7 +35,3 @@ El objetivo de este proyecto es construir un **sistema modular y escalable**, co
      INFO  Refresh token usado correctamente para generar nuevo access token
      ```
 
----
-
-## Arquitectura actual
-
