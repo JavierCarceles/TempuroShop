@@ -1,7 +1,8 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import LoginContainer from './pages/login/LoginContainer';
 import RegisterContainer from './pages/register/RegisterContainer';
+import Home from './pages/home/Home';
 
 const App: React.FC = () => {
   const handleLogin = () => {
@@ -16,12 +17,11 @@ const App: React.FC = () => {
 
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/login" replace />} />
+      <Route path="/" element={<Home />} />
       <Route path="/login" element={<LoginContainer onLogin={handleLogin} t={t} />} />
       <Route path="/register" element={<RegisterContainer />} />
-      <Route path="/home" element={<div>Home page</div>} />
     </Routes>
   );
 };
 
-export default App;
+export default App; 

@@ -1,10 +1,10 @@
 import React, { useRef, useEffect } from 'react';
 
 interface ParticleBackgroundProps {
-  logoSrc?: string;
+  containerRef?: React.RefObject<HTMLDivElement>;
 }
 
-const ParticleBackground: React.FC<ParticleBackgroundProps> = ({ logoSrc }) => {
+const ParticleBackground: React.FC<ParticleBackgroundProps> = ({ containerRef }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -14,8 +14,13 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({ logoSrc }) => {
     if (!ctx) return;
 
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      if (containerRef?.current) {
+        canvas.width = containerRef.current.offsetWidth;
+        canvas.height = containerRef.current.offsetHeight;
+      } else {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
     };
     resize();
     window.addEventListener('resize', resize);
@@ -36,33 +41,20 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({ logoSrc }) => {
       });
     }
 
-    const logo = new Image();
-    let logoLoaded = false;
-    if (logoSrc) {
-      logo.src = logoSrc;
-      logo.onload = () => {
-        logoLoaded = true;
-      };
-    }
-
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       particles.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
-
         if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
         if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
 
-        if (logoSrc && logoLoaded) {
-          ctx.drawImage(logo, p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
-        } else {
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
-          ctx.fillStyle = p.color;
-          ctx.fill();
-        }
+        // Dibuja siempre bolitas
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size / 2, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
       });
 
       requestAnimationFrame(animate);
@@ -70,9 +62,22 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({ logoSrc }) => {
 
     animate();
     return () => window.removeEventListener('resize', resize);
-  }, [logoSrc]);
+  }, [containerRef]);
 
-  return <canvas ref={canvasRef} style={{ position: 'fixed', inset: 0, zIndex: -1 }} />;
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        zIndex: 0,
+        pointerEvents: 'none',
+      }}
+    />
+  );
 };
 
 export default ParticleBackground;

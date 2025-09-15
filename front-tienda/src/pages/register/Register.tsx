@@ -32,19 +32,13 @@ const Register: React.FC<RegisterProps> = ({
   onSubmit,
   onLogin,
 }) => (
-  <>
-    {/* Fondo animado con partículas y logo */}
+  <div className="authPage">
     <ParticleBackground logoSrc={logoSrc} />
-
-    <section className="loginSection">
-      <form onSubmit={onSubmit} autoComplete="off" noValidate className="loginForm">
-        
-        {/* Título */}
+    <section className="authSection">
+      <form onSubmit={onSubmit} autoComplete="off" noValidate className="authForm">
         <h1 className="welcomeText">
           ¡Regístrate en <span className="highlight">TempuroShop</span>!
         </h1>
-
-        {/* Input de username */}
         <div className="divForm">
           <label htmlFor="username">Nombre de usuario</label>
           <input
@@ -54,8 +48,6 @@ const Register: React.FC<RegisterProps> = ({
             onChange={e => onUsernameChange(e.target.value)}
           />
         </div>
-
-        {/* Input de email */}
         <div className="divForm">
           <label htmlFor="email">Email</label>
           <input
@@ -65,8 +57,6 @@ const Register: React.FC<RegisterProps> = ({
             onChange={e => onEmailChange(e.target.value)}
           />
         </div>
-
-        {/* Input de contraseña */}
         <div className="divForm">
           <label htmlFor="password">Contraseña</label>
           <input
@@ -76,8 +66,6 @@ const Register: React.FC<RegisterProps> = ({
             onChange={e => onPasswordChange(e.target.value)}
           />
         </div>
-
-        {/* Input de confirmación de contraseña */}
         <div className="divForm">
           <label htmlFor="confirmPassword">Confirmar contraseña</label>
           <input
@@ -87,22 +75,15 @@ const Register: React.FC<RegisterProps> = ({
             onChange={e => onConfirmPasswordChange(e.target.value)}
           />
         </div>
-
-        {/* Mensaje de error */}
         {error && <div className="errorMessage">{error}</div>}
-
-        {/* Botón de registro */}
         <button type="submit">Crear cuenta</button>
-
-        {/* Link para volver al login */}
         <div className="registerLink" onClick={onLogin} style={{ cursor: "pointer" }}>
           ¿Ya tienes cuenta? <span>Inicia sesión</span>
         </div>
-
       </form>
     </section>
     <Footer/>
-  </>
+  </div>
 );
 
 export default Register;
