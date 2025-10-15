@@ -190,7 +190,7 @@ public class AuthService {
             Span findTokenSpan = tracer.spanBuilder("find-refresh-token").startSpan();
             Token authToken;
             try (Scope findScope = findTokenSpan.makeCurrent()) {
-                authToken = tokenRepository.findByToken(refreshToken)
+                authToken = tokenRepository.findByTokenValue(refreshToken)
                         .orElseThrow(() -> {
                             findTokenSpan.setStatus(StatusCode.ERROR, "Refresh token no encontrado");
                             return new RefreshTokenNotFoundException("Refresh token no encontrado");

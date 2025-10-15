@@ -1,8 +1,17 @@
 C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\AuthServiceApplication.java
+C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\config\OpenTelemetryConfig.java
 C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\controller\AuthController.java
 C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\dto\LoginRequest.java
 C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\dto\LoginResponse.java
 C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\dto\RegisterRequest.java
+C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\exception\AuthenticationFailedException.java
+C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\exception\EmailAlreadyRegisteredException.java
+C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\exception\InvalidRefreshTokenException.java
+C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\exception\JwtGenerationException.java
+C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\exception\RefreshTokenNotFoundException.java
+C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\exception\TokenPersistenceException.java
+C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\exception\UserNotFoundException.java
+C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\exception\UserPersistenceException.java
 C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\model\Role.java
 C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\model\Token.java
 C:\Users\usuario\OneDrive\Documents\INFORMATICA\PROYECTO TIENDA ONLINE\BACKEND\auth-service\src\main\java\com\tempuro\auth\model\User.java

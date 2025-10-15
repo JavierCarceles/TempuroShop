@@ -1,6 +1,5 @@
 package com.tempuro.auth.config;
 
-import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
 import io.opentelemetry.sdk.resources.Resource;
@@ -24,76 +23,46 @@ public class OpenTelemetryConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenTelemetryConfig.class);
 
-    /*
-     * 1. Creamos un exportador OTLP que enviará las trazas a Jaeger o Grafana.
-     * 2. Creamos un BatchSpanProcessor para enviar los spans en lotes, con límite de tamaño y retraso configurables.
-     * 3. Creamos un Resource con metadatos del servicio (ej: service.name).
-     * 4. Creamos un SdkTracerProvider, agregando el BatchSpanProcessor y el Resource.
-     * 5. Creamos y registramos un OpenTelemetrySdk global para que cualquier clase pueda usarlo.
-     * 6. Obtenemos un Tracer global que se usará para crear spans en el código.
+    /**
+     * Configura OpenTelemetry sin registrar globalmente (evita conflictos con MySQL y otros SDKs).
      */
     @PostConstruct
     public void initOpenTelemetry() {
 
-        /*
-         * Exportador OTLP: responsable de enviar los spans al collector.
-         * Builder nos permite configurar el endpoint antes de crear la instancia final.
-         */
+        // 1️⃣ Exportador OTLP: envía spans al collector (Jaeger, Grafana, etc.)
         OtlpGrpcSpanExporter otlpExporter = OtlpGrpcSpanExporter.builder()
                 .setEndpoint(OTLP_ENDPOINT)
                 .build();
 
-        /*
-         * BatchSpanProcessor: gestiona cómo se envían los spans.
-         * setScheduleDelay: tiempo de espera entre envíos.
-         * setMaxQueueSize: máximo número de spans en cola.
-         * setMaxExportBatchSize: máximo número de spans por lote.
-         */
+        // 2️⃣ Procesador de spans en lotes
         BatchSpanProcessor spanProcessor = BatchSpanProcessor.builder(otlpExporter)
                 .setScheduleDelay(Duration.ofMillis(1000))
                 .setMaxQueueSize(2048)
                 .setMaxExportBatchSize(512)
                 .build();
 
-        /*
-         * Resource: define metadatos del servicio.
-         * Attributes.builder().put(): permite añadir pares clave-valor (ej: service.name).
-         * Resource.create(): crea el objeto Resource final con los atributos.
-         */
+        // 3️⃣ Metadatos del servicio (nombre, entorno, etc.)
         Resource serviceResource = Resource.create(
                 Attributes.builder()
                         .put("service.name", SERVICE_NAME)
                         .build()
         );
 
-        /*
-         * SdkTracerProvider: motor que gestiona la creación y exportación de spans.
-         * addSpanProcessor: agregamos el BatchSpanProcessor configurado.
-         * setResource: asociamos los metadatos del servicio.
-         */
+        // 4️⃣ Proveedor de tracers (motor de trazas)
         SdkTracerProvider tracerProvider = SdkTracerProvider.builder()
                 .addSpanProcessor(spanProcessor)
                 .setResource(serviceResource)
                 .build();
 
-        /*
-         * OpenTelemetrySdk global: registro del SDK para que cualquier clase pueda obtener el Tracer.
-         * setTracerProvider: asociamos nuestro TracerProvider.
-         * buildAndRegisterGlobal(): construye el SDK y lo registra globalmente.
-         */
-        OpenTelemetrySdk.builder()
+        // 5️⃣ Creamos el SDK sin registrarlo globalmente (para evitar conflictos con MySQL)
+        OpenTelemetrySdk openTelemetry = OpenTelemetrySdk.builder()
                 .setTracerProvider(tracerProvider)
-                .buildAndRegisterGlobal();
+                .build();
 
-        /*
-         * Tracer global: objeto que usaremos para crear spans en cualquier parte del servicio.
-         * GlobalOpenTelemetry.getTracer(): obtiene un Tracer por nombre de servicio.
-         */
-        GlobalOpenTelemetry.getTracer(SERVICE_NAME);
+        // 6️⃣ Obtenemos un tracer desde nuestra instancia (sin usar GlobalOpenTelemetry)
+        openTelemetry.getTracer(SERVICE_NAME);
 
-        /*
-         * Mensaje de confirmación de inicialización usando Logger
-         */
-        logger.info("✅ OpenTelemetry inicializado para servicio: {}", SERVICE_NAME);
+        // 7️⃣ Log informativo
+        logger.info("✅ OpenTelemetry inicializado correctamente para el servicio: {}", SERVICE_NAME);
     }
 }

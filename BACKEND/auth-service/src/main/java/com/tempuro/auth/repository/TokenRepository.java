@@ -16,7 +16,7 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
 
     List<Token> findAllByUserAndRevokedFalse(User user);
 
-    Optional<Token> findByTokenAndRevokedFalse(String token);
+    Optional<Token> findByTokenValueAndRevokedFalse(String tokenValue);
 
     @Modifying
     @Query("UPDATE Token t SET t.revoked = true WHERE t.user = :user AND t.revoked = false")
@@ -24,6 +24,6 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
 
     List<Token> findAllByExpiryDateBefore(LocalDateTime dateTime);
 
-    Optional<Token> findByToken(String refreshToken);
+    Optional<Token> findByTokenValue(String refreshToken);
 
 }
