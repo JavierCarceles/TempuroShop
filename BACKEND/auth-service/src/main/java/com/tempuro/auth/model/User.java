@@ -27,8 +27,8 @@ import lombok.*;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-public class User implements UserDetails{
-    
+public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -56,61 +56,69 @@ public class User implements UserDetails{
     private LocalDateTime lastLogin;
 
     /*
-    * Relación ManyToMany entre User y Role
-    * 1. FetchType.EAGER: siempre carga los roles junto al usuario
-    * 2. @JoinTable indica la tabla intermedia que relaciona users y roles
-    * 3. joinColumns: columna de user_roles que apunta a User
-    * 4. inverseJoinColumns: columna de user_roles que apunta a Role
-    */
+     * Relación ManyToMany entre User y Role
+     * 1. FetchType.EAGER: siempre carga los roles junto al usuario
+     * 2. @JoinTable indica la tabla intermedia que relaciona users y roles
+     * 3. joinColumns: columna de user_roles que apunta a User
+     * 4. inverseJoinColumns: columna de user_roles que apunta a Role
+     */
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-        name="user_roles",
-        joinColumns = @JoinColumn(name="user_id"),
-        inverseJoinColumns = @JoinColumn(name="role_id")
-    )
-    private Set<Role> roles;
-
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private transient Set<Role> roles;
 
     /*
-    * Relación OneToMany entre User y Token
-    * 1. mappedBy="user": indica que la relación se define en el atributo 'user' de la clase Token
-    * 2. Permite obtener todos los tokens asociados a un usuario
-    */
+     * Relación OneToMany entre User y Token
+     * 1. mappedBy="user": indica que la relación se define en el atributo 'user' de
+     * la clase Token
+     * 2. Permite obtener todos los tokens asociados a un usuario
+     */
     @OneToMany(mappedBy = "user")
-    private Set<Token> tokens;
+    private transient Set<Token> tokens;
 
     /*
-    * Implementación de UserDetails requerida por Spring Security
-    * 1. getAuthorities(): devuelve los roles del usuario como GrantedAuthority
-    * 2. Cada role se transforma en SimpleGrantedAuthority usando su nombre
-    * 3. Collectors.toSet(): devuelve un Set de authorities para Spring Security
-    */
+     * Implementación de UserDetails requerida por Spring Security
+     * 1. getAuthorities(): devuelve los roles del usuario como GrantedAuthority
+     * 2. Cada role se transforma en SimpleGrantedAuthority usando su nombre
+     * 3. Collectors.toSet(): devuelve un Set de authorities para Spring Security
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
-            .map(role -> new SimpleGrantedAuthority(role.getName()))
-            .collect(Collectors.toSet());
+                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .collect(Collectors.toSet());
     }
 
     /*
-    * Metodos de UserDetails  
-    */
+     * Metodos de UserDetails
+     */
     @Override
-    public String getPassword() { return password; }
+    public String getPassword() {
+        return password;
+    }
 
     @Override
-    public String getUsername() { return email; }
+    public String getUsername() {
+        return username;
+    }
 
     @Override
-    public boolean isAccountNonExpired() { return true; }
+    public boolean isAccountNonExpired() {
+        return true;
+    }
 
     @Override
-    public boolean isAccountNonLocked() { return true; }
+    public boolean isAccountNonLocked() {
+        return true;
+    }
 
     @Override
-    public boolean isCredentialsNonExpired() { return true; }
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
 
     @Override
-    public boolean isEnabled() { return isEnabled; }
+    public boolean isEnabled() {
+        return isEnabled;
+    }
 
 }

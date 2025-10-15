@@ -6,11 +6,11 @@ import com.tempuro.auth.model.User;
 import java.util.Optional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>{
-    
+public interface UserRepository extends JpaRepository<User, Long> {
+
     /*
-    * El optional Devuelve un User si existe o un objeto vacío si no
-    */
+     * El optional Devuelve un User si existe o un objeto vacío si no
+     */
     Optional<User> findByEmail(String email);
 
 }

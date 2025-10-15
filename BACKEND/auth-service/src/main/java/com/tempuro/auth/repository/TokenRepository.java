@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface TokenRepository extends JpaRepository<Token, Long>{
+public interface TokenRepository extends JpaRepository<Token, Long> {
 
     List<Token> findAllByUserAndRevokedFalse(User user);
 
